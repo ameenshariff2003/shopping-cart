@@ -1,0 +1,9 @@
+.products{
+    display: flex;
+    margin-left: 4rem;
+    
+    flex-wrap: wrap;
+}
+.shop-title{
+    text-align: center;
+}

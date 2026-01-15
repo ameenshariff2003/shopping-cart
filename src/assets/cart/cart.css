@@ -1,0 +1,34 @@
+.cartItermc{
+    height: 300px;
+    width: 30%;
+    border: 1px solid rgb(208, 204, 204);
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+.cartItermc:hover{
+    opacity: 84%;
+
+}
+.img{
+    width: fit-content;
+}
+.countHandel{
+    width: 100px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.itm-cnt{
+    width: 40px;
+text-align: center;
+
+}
+.checkout{
+
+    text-align: center;
+
+}
