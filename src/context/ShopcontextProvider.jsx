@@ -1,75 +1,56 @@
-import React, { createContext, useState } from 'react';
+import React,{createContext, useState} from 'react'
 import { Data } from '../prodData';
 
 export const ShopContext = createContext(null);
 
-const getDefaultCart = () => {
+const getDefaultCart = ()=>{
   let cart = {};
-  Data.forEach((item) => {
-    cart[item.id] = 0;
-  });
+  for(let i=1;i<=Data.length;i++){
+    cart[i] = 0
+  }
   return cart;
-};
+}
 
-export const ShopContextProvider = ({ children }) => {
-  const [cart, setCart] = useState(getDefaultCart());
 
-  // ✅ Total price
-  const getTotalAmt = () => {
+export const ShopcontextProvider =(props) =>{
+  const [cart,setCart] = useState(getDefaultCart);
+
+  const getTotalAmt = () =>{
     let totalAmt = 0;
-
-    for (const itemId in cart) {
-      if (cart[itemId] > 0) {
-        const itemInfo = Data.find(
-          (prod) => prod.id === Number(itemId)
-        );
-
-        if (itemInfo) {
-          totalAmt += cart[itemId] * itemInfo.price;
-        }
+    for(const item in cart){
+      if(cart[item]>0){
+        let itemInfo = Data.find((prod)=> prod.id === Number(item));
+        totalAmt += cart[item] * itemInfo.price
       }
     }
     return totalAmt;
-  };
-
-  // ✅ Total quantity count
-  const getCartCount = () => {
+  }
+  const getCartCount = () =>{
     let totalCount = 0;
-
-    for (const itemId in cart) {
-      totalCount += cart[itemId];
+    for(const item in cart){
+      if(cart[item]>0){
+        let itemInfo = Data.find((prod)=> prod.id === Number(item));
+        totalCount += cart[item] * itemInfo
+      }
     }
+    return totalCount
+  }
 
-    return totalCount;
+  const addToCart = (itemId)=>{
+    setCart((prev)=>({...prev , [itemId] : prev[itemId] +1}))
+  }
+
+  const removeCart = (itemId)=>{
+    setCart((prev)=>({...prev , [itemId] : prev[itemId] -1}))
   };
 
-  // ✅ Add item
-  const addToCart = (itemId) => {
-    setCart((prev) => ({
-      ...prev,
-      [itemId]: prev[itemId] + 1,
-    }));
-  };
+  const contextValue = {cart,addToCart,removeCart,getTotalAmt,getCartCount}
 
-  // ✅ Remove item (no negative values)
-  const removeFromCart = (itemId) => {
-    setCart((prev) => ({
-      ...prev,
-      [itemId]: Math.max(prev[itemId] - 1, 0),
-    }));
-  };
-
-  const contextValue = {
-    cart,
-    addToCart,
-    removeFromCart,
-    getTotalAmt,
-    getCartCount,
-  };
 
   return (
     <ShopContext.Provider value={contextValue}>
-      {children}
+    {props.children}
+      
     </ShopContext.Provider>
-  );
-};
+  )
+}
